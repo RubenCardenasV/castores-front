@@ -1,0 +1,69 @@
+<div class="container mt-4">
+    <a routerLink="/home" class="btn btn-outline-primary d-inline-flex align-items-center mb-3">
+        <i class="bi bi-arrow-left me-2"></i> Volver al Inicio
+    </a>
+  
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Salida de Productos</h3>
+    </div>
+  
+    <table class="table table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of productos">
+          <td>{{ p.idProducto }}</td>
+          <td>{{ p.nombre }}</td>
+          <td>{{ p.descripcion }}</td>
+          <td>{{ p.cantidad }}</td>
+          <td>
+            <button [hidden]=" this.rol == 1" class="btn btn-warning btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalSalida"
+                    (click)="abrirModal(p)">
+              Salida
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Modal Salida -->
+  <div class="modal fade" id="modalSalida" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form (ngSubmit)="registrarSalida()">
+          <div class="modal-header">
+            <h5 class="modal-title">Salida de Producto: <span class="text-primary">{{ productoSeleccionado?.nombre }}</span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div *ngIf="mensajeAlerta" class="alert alert-warning alert-dismissible fade show">
+              {{ mensajeAlerta }}
+              <button type="button" class="btn-close" (click)="mensajeAlerta = ''"></button>
+            </div>
+            <label for="cantidad">Cantidad</label>
+            <input type="number"
+                   [(ngModel)]="cantidad"
+                   name="cantidad"
+                   class="form-control"
+                   min="1"
+                   required />
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
